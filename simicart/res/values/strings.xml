@@ -2,4 +2,15 @@
 <resources>
     <string name="hello">Hello World, MagentoidActivity!</string>
     <string name="app_name">Magentoid</string>
+    <string name="home">Home</string>
+    <string name="category">Category</string>
+    <string name="myaccount">My Account</string>
+    <string name="profile">Profile</string>
+    <string name="addressbook">Address Book</string>
+    <string name="order_history">Order History</string>
+    <string name="store_view">Store View</string>
+    <string name="more">More</string>
+    <string name="store_locator">Store Locator</string>
+    <string name="abountus">Abount Us</string>
+    <string name="privacy_policy">Privacy Policy</string>
 </resources>
