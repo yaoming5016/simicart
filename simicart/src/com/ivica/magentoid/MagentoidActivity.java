@@ -11,10 +11,10 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.ivica.magentoid.afragment.LoginFragment;
 import com.ivica.magentoid.core.MagentoidApp;
 
 public class MagentoidActivity extends FragmentActivity {
@@ -26,6 +26,7 @@ public class MagentoidActivity extends FragmentActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
+
 		drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		left_drawer = (ListView) findViewById(R.id.left_drawer);
 		setupMenuLeft();
@@ -43,20 +44,6 @@ public class MagentoidActivity extends FragmentActivity {
 	}
 
 	private void setupMenuLeft() {
-		String[] datas = new String[] {//
-		getResources().getString(R.string.home),//
-				getResources().getString(R.string.category),//
-				getResources().getString(R.string.profile),//
-				getResources().getString(R.string.addressbook),//
-				getResources().getString(R.string.order_history),//
-				getResources().getString(R.string.store_locator),//
-				getResources().getString(R.string.abountus),//
-				getResources().getString(R.string.privacy_policy) //
-		};//
-
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-				android.R.layout.simple_list_item_1, datas);
-		left_drawer.setAdapter(adapter);
 		left_drawer.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
