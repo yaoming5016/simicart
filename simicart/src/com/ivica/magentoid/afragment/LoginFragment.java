@@ -36,5 +36,8 @@ public class LoginFragment extends Fragment implements OnClickListener {
 				.getText().toString();
 		String magento_appCode = ((TextView) getView().findViewById(
 				R.id.login_id)).getText().toString();
+		
+		
+		
 	}
 }
