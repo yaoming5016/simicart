@@ -14,10 +14,12 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.ivica.magentoid.a.service.MagentoServiceManager;
 import com.ivica.magentoid.afragment.LoginFragment;
 import com.ivica.magentoid.core.MagentoidApp;
 
 public class MagentoidActivity extends FragmentActivity {
+	private MagentoServiceManager magentoServiceManager;
 	private android.support.v4.widget.DrawerLayout drawerLayout;
 	private ListView left_drawer;
 	private MagentoidApp mApp = MagentoidApp.getInstance();
@@ -26,7 +28,7 @@ public class MagentoidActivity extends FragmentActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
-
+		magentoServiceManager = new MagentoServiceManager(this);
 		drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		left_drawer = (ListView) findViewById(R.id.left_drawer);
 		setupMenuLeft();
