@@ -19,38 +19,59 @@ public class MagentoServiceManager {
 	}
 
 	public MagentoServiceManager(Context context) {
-		this.context = context;
+		this.context = context.getApplicationContext();
 	}
 
-	public void onCreate() {
-		init(null);
-	}
+	public enum MagentoServiceManagerControll {//
+		CREATE, //
+		DESTROY, //
+		LOGIN, //
+		LOGOUT, //
+		userUrlAppCode,//
+	};
 
-	public void onDestroy() {
-		context.unbindService(connection);
-	}
+	public void onCall(final MagentoServiceManagerControll serviceManagerControll, final MagentoServiceManagerCallBack callBack) {
+		if (serviceManagerControll == MagentoServiceManagerControll.DESTROY) {
+			if (magentoService != null) {
+				context.unbindService(connection);
+			}
+		} else {
+			if (connection == null) {
+				connection = new ServiceConnection() {
 
-	public void init(final MagentoServiceManagerCallBack callBack) {
-		if (connection == null) {
-			connection = new ServiceConnection() {
+					@Override
+					public void onServiceConnected(ComponentName arg0, IBinder arg1) {
+						magentoService = IMagentoService.Stub.asInterface(arg1);
+						onCall(magentoService, serviceManagerControll, callBack);
+					}
 
-				@Override
-				public void onServiceConnected(ComponentName arg0, IBinder arg1) {
-					magentoService = IMagentoService.Stub.asInterface(arg1);
-					if (callBack != null)
-						callBack.onServiceConnected();
-				}
+					@Override
+					public void onServiceDisconnected(ComponentName arg0) {
+						if (callBack != null)
+							callBack.onServiceDisconnected();
+					}
+				};
+			}
 
-				@Override
-				public void onServiceDisconnected(ComponentName arg0) {
-					if (callBack != null)
-						callBack.onServiceDisconnected();
-				}
-			};
+			if (magentoService == null) {
+				context.bindService(new Intent("com.ivica.magentoid.a.service.MagentoService"), connection, Context.BIND_AUTO_CREATE);
+			} else {
+				onCall(magentoService, serviceManagerControll, callBack);
+			}
 		}
-		context.bindService(new Intent(
-				"com.ivica.magentoid.a.service.MagentoService"), connection,
-				Context.BIND_AUTO_CREATE);
 	}
 
+	private void onCall(IMagentoService magentoService, MagentoServiceManagerControll serviceManagerControll, MagentoServiceManagerCallBack callBack) {
+		if (magentoService == null) {
+			if (callBack != null) {
+				callBack.onServiceDisconnected();
+			}
+		} else {
+			try {
+
+			} catch (Exception exception) {
+
+			}
+		}
+	}
 }

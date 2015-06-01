@@ -15,6 +15,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.ivica.magentoid.a.service.MagentoServiceManager;
+import com.ivica.magentoid.a.service.MagentoServiceManager.MagentoServiceManagerControll;
 import com.ivica.magentoid.afragment.LoginFragment;
 import com.ivica.magentoid.core.MagentoidApp;
 
@@ -37,20 +38,26 @@ public class MagentoidActivity extends FragmentActivity {
 		} else {
 			String message = "";
 			if (mApp.getConfiguration().ds.getGeneral() != null) {
-				message = mApp.getConfiguration().ds.getGeneral()
-						.getCopyright();
+				message = mApp.getConfiguration().ds.getGeneral().getCopyright();
 			}
 
 			Toast.makeText(this, message, Toast.LENGTH_LONG).show();
 		}
+
+		magentoServiceManager.onCall(MagentoServiceManagerControll.CREATE, null);
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		magentoServiceManager.onCall(MagentoServiceManagerControll.DESTROY, null);
 	}
 
 	private void setupMenuLeft() {
 		left_drawer.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
 			}
 

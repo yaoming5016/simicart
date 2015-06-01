@@ -32,6 +32,11 @@
                 <action android:name="com.ivica.magentoid.a.service.MagentoService" />
             </intent-filter>
         </service>
+
+        <provider
+            android:name=".a.db.MagentoDBProvider"
+            android:authorities="com.ivica.magentoid.a.db.MagentoDBProvider" >
+        </provider>
     </application>
 
 </manifest>
