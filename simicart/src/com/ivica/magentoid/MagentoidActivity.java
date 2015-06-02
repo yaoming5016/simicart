@@ -12,11 +12,10 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.ivica.magentoid.a.service.MagentoServiceManager;
+import com.ivica.magentoid.a.service.MagentoServiceManager.MagentoServiceManagerCallBack;
 import com.ivica.magentoid.a.service.MagentoServiceManager.MagentoServiceManagerControll;
-import com.ivica.magentoid.afragment.LoginFragment;
 import com.ivica.magentoid.core.MagentoidApp;
 
 public class MagentoidActivity extends FragmentActivity {
@@ -33,18 +32,29 @@ public class MagentoidActivity extends FragmentActivity {
 		drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		left_drawer = (ListView) findViewById(R.id.left_drawer);
 		setupMenuLeft();
-		if (mApp.getConfiguration().ds == null) {
-			Toast.makeText(this, "Nothing", Toast.LENGTH_LONG).show();
-		} else {
-			String message = "";
-			if (mApp.getConfiguration().ds.getGeneral() != null) {
-				message = mApp.getConfiguration().ds.getGeneral().getCopyright();
+//		if (mApp.getConfiguration().ds == null) {
+//			Toast.makeText(this, "Nothing", Toast.LENGTH_LONG).show();
+//		} else {
+//			String message = "";
+//			if (mApp.getConfiguration().ds.getGeneral() != null) {
+//				message = mApp.getConfiguration().ds.getGeneral().getCopyright();
+//			}
+//
+//			Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+//		}
+
+		magentoServiceManager.onCall(MagentoServiceManagerControll.CREATE, new MagentoServiceManagerCallBack() {
+			
+			@Override
+			public void onServiceDisconnected() {
+				
 			}
-
-			Toast.makeText(this, message, Toast.LENGTH_LONG).show();
-		}
-
-		magentoServiceManager.onCall(MagentoServiceManagerControll.CREATE, null);
+			
+			@Override
+			public void onServiceConnected() {
+				
+			}
+		});
 	}
 
 	@Override

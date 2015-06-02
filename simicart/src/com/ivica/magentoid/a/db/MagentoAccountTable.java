@@ -8,4 +8,6 @@ public class MagentoAccountTable extends SkypeTable {
 	public MagentoAccountTable(Context context, Class provider) {
 		super(context, provider);
 	}
+	
+	
 }
