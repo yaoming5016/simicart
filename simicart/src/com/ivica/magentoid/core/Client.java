@@ -28,33 +28,42 @@ import org.apache.http.impl.cookie.BasicClientCookie;
 import org.apache.http.params.BasicHttpParams;
 import org.apache.http.util.ByteArrayBuffer;
 
+import com.ivica.magentoid.MagentoManager;
+
+import android.app.Application;
+
 public class Client {
-
-	protected static final MagentoidApp mApp = MagentoidApp.getInstance();
+	private Application application;
 	private DefaultHttpClient httpClient;
-	private static final String magentoUrl = MagentoidApp.MAGENTO_URL;
-	private static final String appCode = MagentoidApp.MAGENTO_APP_CODE;
 
-	Client() {
+	public Client(Application application) {
+		this.application = application;
+		init();
 		createHttpClient();
 	}
 
-	Client(DefaultHttpClient httpClient) {
+	public Client(DefaultHttpClient httpClient) {
+		init();
 		this.httpClient = httpClient;
+	}
+
+	private String magentoUrl;
+	private String appCode;
+
+	private void init() {
+		magentoUrl = MagentoManager.getInstance().MAGENTO_URL();
+		appCode = MagentoManager.getInstance().MAGENTO_APP_CODE();
 	}
 
 	private void createHttpClient() {
 		BasicHttpParams params = new BasicHttpParams();
 		SchemeRegistry schemeRegistry = new SchemeRegistry();
-		schemeRegistry.register(new Scheme("http", PlainSocketFactory
-				.getSocketFactory(), 80));
+		schemeRegistry.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
 
-		final SSLSocketFactory sslSocketFactory = SSLSocketFactory
-				.getSocketFactory();
+		final SSLSocketFactory sslSocketFactory = SSLSocketFactory.getSocketFactory();
 		schemeRegistry.register(new Scheme("https", sslSocketFactory, 443));
 
-		ClientConnectionManager cm = new ThreadSafeClientConnManager(params,
-				schemeRegistry);
+		ClientConnectionManager cm = new ThreadSafeClientConnManager(params, schemeRegistry);
 
 		httpClient = new DefaultHttpClient(cm, params);
 		httpClient.getCookieStore().getCookies();
@@ -64,8 +73,7 @@ public class Client {
 		// 'https' in URL
 	}
 
-	public InputStream fetchUrl(String strUrl) throws ClientProtocolException,
-			IOException {
+	public InputStream fetchUrl(String strUrl) throws ClientProtocolException, IOException {
 
 		HttpGet httpget = new HttpGet(magentoUrl + strUrl);
 		HttpResponse response;
@@ -73,14 +81,12 @@ public class Client {
 
 		return response.getEntity().getContent();
 	}
-	
-	public InputStream fetchUrlCached(String strUrl) throws ClientProtocolException,
-	IOException {
+
+	public InputStream fetchUrlCached(String strUrl) throws ClientProtocolException, IOException {
 		return null;
 	}
 
-	public InputStream fetchUrlPost(String strUrl, List<NameValuePair> pairs)
-			throws ClientProtocolException, IOException {
+	public InputStream fetchUrlPost(String strUrl, List<NameValuePair> pairs) throws ClientProtocolException, IOException {
 
 		HttpPost post = new HttpPost(magentoUrl + strUrl);
 		post.setEntity(new UrlEncodedFormEntity(pairs));
@@ -91,8 +97,7 @@ public class Client {
 	}
 
 	public String fetchFile(String url) {
-		String fileName = MagentoidApp.DATA_DATA_COM_IVICA_MAGENTOID
-				+ String.valueOf(url.hashCode());
+		String fileName = MagentoManager.getInstance().DATA_DATA_COM_IVICA_MAGENTOID() + String.valueOf(url.hashCode());
 
 		try {
 			HttpGet httpget = new HttpGet(url);

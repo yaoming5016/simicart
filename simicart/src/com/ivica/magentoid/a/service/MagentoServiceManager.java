@@ -27,13 +27,13 @@ public class MagentoServiceManager {
 		DESTROY, //
 		LOGIN, //
 		LOGOUT, //
-		userUrlAppCode,//
+		userUrlAppCode, //
 	};
 
 	public void onCall(final MagentoServiceManagerControll serviceManagerControll, final MagentoServiceManagerCallBack callBack) {
 		if (serviceManagerControll == MagentoServiceManagerControll.DESTROY) {
 			if (magentoService != null) {
-				context.unbindService(connection);
+				context.getApplicationContext().unbindService(connection);
 			}
 		} else {
 			if (connection == null) {

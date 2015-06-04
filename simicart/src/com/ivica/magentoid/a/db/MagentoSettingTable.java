@@ -12,7 +12,7 @@ public class MagentoSettingTable extends SkypeTable {
 	public MagentoSettingTable(Context context, Class provider) {
 		super(context, provider);
 
-		addColumns("_name");
+		addColumns("xname");
 		addColumns("_value");
 	}
 
@@ -21,9 +21,9 @@ public class MagentoSettingTable extends SkypeTable {
 	}
 
 	public void set(MagentoSettingTableName name, String value) {
-		String where = String.format("%s == '%s'", "_name", name.name());
+		String where = String.format("%s == '%s'", "xname", name.name());
 		ContentValues values = new ContentValues();
-		values.put("_name", name.name());
+		values.put("xname", name.name());
 		values.put("_value", value);
 		if (has(where)) {
 			getContext().getContentResolver().update(getContentUri(), values, where, null);
@@ -32,8 +32,9 @@ public class MagentoSettingTable extends SkypeTable {
 		}
 	}
 
+	// TODO
 	public String get(MagentoSettingTableName name) {
-		String where = String.format("%s == '%s'", "_name", name.name());
+		String where = String.format("%s == '%s'", "xname", name.name());
 
 		Cursor cursor = querry(where);
 
@@ -43,6 +44,14 @@ public class MagentoSettingTable extends SkypeTable {
 				data = CommonAndroid.getString(cursor, "_value");
 			}
 			cursor.close();
+		}
+
+		if (CommonAndroid.isBlank(data) && name == MagentoSettingTableName.MAGENTO_URL) {
+			data = "http://magentoivica.loc";
+		}
+
+		if (CommonAndroid.isBlank(data) && name == MagentoSettingTableName.MAGENTO_APPCODE) {
+			data = "defand1";
 		}
 		return data;
 	}

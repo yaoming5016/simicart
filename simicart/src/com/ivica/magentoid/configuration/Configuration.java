@@ -9,23 +9,28 @@ import java.io.IOException;
 
 import org.apache.http.client.ClientProtocolException;
 
+import android.content.Context;
+
+import com.ivica.magentoid.MagentoManager;
 import com.ivica.magentoid.configuration.ds.ConfigurationDS;
 import com.ivica.magentoid.core.MagentoidApp;
 import com.ivica.magentoid.core.Model;
 
 public class Configuration extends Model {
 
+	public Configuration(Context context) {
+		super(context);
+	}
+
 	private final static String CONFIGURATION = "/xmlconnect/configuration/index/app_code/%s/screen_size/%sx%s";
 
 	public ConfigurationDS ds;
 
 	public void load(Integer width, Integer height) {
-		String preparedUrl = String.format(CONFIGURATION,
-				MagentoidApp.MAGENTO_APP_CODE, width, height);
+		String preparedUrl = String.format(CONFIGURATION, MagentoManager.getInstance().MAGENTO_APP_CODE(), width, height);
 
 		try {
-			ds = serializer.read(ConfigurationDS.class, client
-					.fetchUrl(preparedUrl));
+			ds = serializer.read(ConfigurationDS.class, MagentoManager.getInstance().getClient().fetchUrl(preparedUrl));
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
