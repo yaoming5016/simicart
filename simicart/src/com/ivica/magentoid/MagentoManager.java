@@ -23,7 +23,10 @@ public class MagentoManager {
 
 	public void init(Application application) {
 		this.application = application;
+		refresh();
+	}
 
+	public void refresh() {
 		client = new Client(application);
 	}
 
