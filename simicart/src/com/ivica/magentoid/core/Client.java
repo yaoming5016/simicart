@@ -38,22 +38,22 @@ public class Client {
 
 	public Client(Application application) {
 		this.application = application;
-		init();
+		// init();
 		createHttpClient();
 	}
 
-	public Client(DefaultHttpClient httpClient) {
-		init();
-		this.httpClient = httpClient;
-	}
+	// public Client(DefaultHttpClient httpClient) {
+	// / init();
+	// this.httpClient = httpClient;
+	// }
 
-	private String magentoUrl;
-	private String appCode;
+	// private String magentoUrl;
+	// private String appCode;
 
-	private void init() {
-		magentoUrl = MagentoManager.getInstance().MAGENTO_URL();
-		appCode = MagentoManager.getInstance().MAGENTO_APP_CODE();
-	}
+	// private void init() {
+	// magentoUrl = MagentoManager.getInstance().MAGENTO_URL();
+	// appCode = MagentoManager.getInstance().MAGENTO_APP_CODE();
+	// }
 
 	private void createHttpClient() {
 		BasicHttpParams params = new BasicHttpParams();
@@ -68,14 +68,18 @@ public class Client {
 		httpClient = new DefaultHttpClient(cm, params);
 		httpClient.getCookieStore().getCookies();
 
-		BasicClientCookie cookie = new BasicClientCookie("app_code", appCode);
-		cookie.setDomain(magentoUrl.split("://")[1]); // get rid of 'http' or
+		BasicClientCookie cookie = new BasicClientCookie("app_code", MagentoManager.getInstance().MAGENTO_APP_CODE());
+		cookie.setDomain(MagentoManager.getInstance().MAGENTO_URL().split("://")[1]); // get
+																						// rid
+																						// of
+																						// 'http'
+																						// or
 		// 'https' in URL
 	}
 
 	public InputStream fetchUrl(String strUrl) throws ClientProtocolException, IOException {
 
-		HttpGet httpget = new HttpGet(magentoUrl + strUrl);
+		HttpGet httpget = new HttpGet(MagentoManager.getInstance().MAGENTO_URL() + strUrl);
 		HttpResponse response;
 		response = httpClient.execute(httpget);
 
@@ -88,7 +92,7 @@ public class Client {
 
 	public InputStream fetchUrlPost(String strUrl, List<NameValuePair> pairs) throws ClientProtocolException, IOException {
 
-		HttpPost post = new HttpPost(magentoUrl + strUrl);
+		HttpPost post = new HttpPost(MagentoManager.getInstance().MAGENTO_URL() + strUrl);
 		post.setEntity(new UrlEncodedFormEntity(pairs));
 		HttpResponse response;
 		response = httpClient.execute(post);

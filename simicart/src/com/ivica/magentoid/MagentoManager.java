@@ -76,12 +76,25 @@ public class MagentoManager {
 
 	public boolean isConnected() {
 
+		String copyRight = getCopyRight();
+		// if (MagentoManager.getInstance().getConfiguration().ds == null) {
+		// } else if
+		// (MagentoManager.getInstance().getConfiguration().ds.getGeneral() !=
+		// null) {
+		// copyRight =
+		// MagentoManager.getInstance().getConfiguration().ds.getGeneral().getCopyright();
+		// }
+
+		return !CommonAndroid.isBlank(copyRight);
+	}
+
+	public String getCopyRight() {
 		String copyRight = "";
 		if (MagentoManager.getInstance().getConfiguration().ds == null) {
 		} else if (MagentoManager.getInstance().getConfiguration().ds.getGeneral() != null) {
 			copyRight = MagentoManager.getInstance().getConfiguration().ds.getGeneral().getCopyright();
 		}
 
-		return !CommonAndroid.isBlank(copyRight);
+		return copyRight;
 	}
 }

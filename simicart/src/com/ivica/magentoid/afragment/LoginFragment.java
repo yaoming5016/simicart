@@ -61,8 +61,11 @@ public class LoginFragment extends Fragment implements OnClickListener {
 		settingTable.set(MagentoSettingTableName.MAGENTO_URL, login_url);
 		settingTable.set(MagentoSettingTableName.MAGENTO_APPCODE, magento_appCode);
 
+		boolean isConnected = MagentoManager.getInstance().isConnected();
 		if (MagentoManager.getInstance().isConnected()) {
-
+			CommonAndroid.showDialog(getActivity(), "login success" + isConnected + MagentoManager.getInstance().getCopyRight(), null);
+		} else {
+			CommonAndroid.showDialog(getActivity(), "x login false x" + isConnected, null);
 		}
 	}
 }
